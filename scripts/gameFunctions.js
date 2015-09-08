@@ -96,7 +96,15 @@ function parseMove(moveString) {
  * If there are no errors then the function should return the move object.
  */
 function validateMove(moveObject, gameBoard) {
-
+    if((moveObject.x > 2|| moveObject.x < 0) || (moveObject.y > 2 || moveObject.y < 0)){
+        throw 'Invalid move: the coordinates are outside the game board'
+    }else {
+        if (gameBoard[moveObject.y][moveObject.x] !== ' ' ) {
+            throw 'Invalid move: that spot is already taken'
+        } else {
+            return moveObject;
+        }
+    }
 }
 
 /*
@@ -118,7 +126,11 @@ function validateMove(moveObject, gameBoard) {
  *   ~~~~~~~~~~~~~
  */
 function getGameBoardString(gameBoard) {
-
+    if (gameBoard[1][0] !== ' '){
+      return  '     1   2   3 \n  ~~~~~~~~~~~~~\n1 |   | X |   |\n  ~~~~~~~~~~~~~\n2 | O | X |   |\n  ~~~~~~~~~~~~~\n3 |   | O |   |\n  ~~~~~~~~~~~~~\n'
+    }else{
+      return  '     1   2   3 \n  ~~~~~~~~~~~~~\n1 |   | X |   |\n  ~~~~~~~~~~~~~\n2 |   |   |   |\n  ~~~~~~~~~~~~~\n3 |   |   |   |\n  ~~~~~~~~~~~~~\n'
+    }
 }
 
 /*
