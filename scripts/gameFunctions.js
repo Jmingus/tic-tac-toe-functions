@@ -6,10 +6,18 @@
  *
  * valid options include: '1', 'one', '2', or 'two'.
  * The function should be case insensitive, so 'one' and 'ONE' should both
- * result in true.
+ * result in 1.
  */
 function validateGameType(gameTypeString) {
-
+    if (typeof gameTypeString === 'object'){
+        return false;
+    }
+    if (gameTypeString == 1 || gameTypeString.toLowerCase() === 'one'){
+        return 1;
+    }else if(gameTypeString == 2 || gameTypeString.toLowerCase() === 'two'){
+        return 2;
+    }
+    return false;
 }
 
 /*
@@ -18,18 +26,26 @@ function validateGameType(gameTypeString) {
  * false if the name is not valid.
  */
 function validateName(name) {
-
+   var re = /^([a-z]*)(\s|[-])?([a-z]*)$/i;
+    if (name.length === 0){
+        return false;
+    };
+    if(re.test(name)){
+        return name;
+    }else {
+        return false;
+    }
 }
 
 /*
  * Randomly generates and returns a name for a computer player.
  */
 function generateComputerName() {
-
+    return Math.random().toString(36).substr(2,5)
 }
 
 /*
- * Converts the moveString (which should be in the formate 'x y') into an object
+ * Converts the moveString (which should be in the format 'x y') into an object
  * with x and y properties as numbers. The x and y properties in the object
  * should be numbers that correspond to positions in the gameBoard matrix.
  *
@@ -40,7 +56,7 @@ function generateComputerName() {
  *	  y: 2
  * }
  *
- * Notice that the values in the return object are one less than the inpute
+ * Notice that the values in the return object are one less than the input
  * values. This is because the gameBoard is zero-indexed (meaning it starts at
  * position 0 instead of position 1 so every position is one smaller than the
  * values in the moveString).
@@ -50,6 +66,18 @@ function generateComputerName() {
  * exception.
  */
 function parseMove(moveString) {
+    var regex = /^[1-3]\s[1-3]$/;
+    var moveObject = {};
+    if(regex.test(moveString)){
+        var uncleanMove = moveString.split(' ');
+        var xAxis = (uncleanMove[0] - 1);
+        var yAxis = (uncleanMove[1] - 1);
+        moveObject.x = xAxis;
+        moveObject.y = yAxis;
+        return moveObject;
+    }else{
+        throw 'Invalid input: the move must be in the format "x y"'
+    };
 
 }
 
