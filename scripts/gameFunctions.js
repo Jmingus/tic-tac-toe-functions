@@ -126,11 +126,13 @@ function validateMove(moveObject, gameBoard) {
  *   ~~~~~~~~~~~~~
  */
 function getGameBoardString(gameBoard) {
-    if (gameBoard[1][0] !== ' '){
-      return  '     1   2   3 \n  ~~~~~~~~~~~~~\n1 |   | X |   |\n  ~~~~~~~~~~~~~\n2 | O | X |   |\n  ~~~~~~~~~~~~~\n3 |   | O |   |\n  ~~~~~~~~~~~~~\n'
-    }else{
-      return  '     1   2   3 \n  ~~~~~~~~~~~~~\n1 |   | X |   |\n  ~~~~~~~~~~~~~\n2 |   |   |   |\n  ~~~~~~~~~~~~~\n3 |   |   |   |\n  ~~~~~~~~~~~~~\n'
-    }
+    return '     1   2   3 \n  ~~~~~~~~~~~~~\n1 | '
+        + gameBoard[0][0] +' | '+ gameBoard[0][1] +' | '+ gameBoard[0][2] +
+        ' |\n  ~~~~~~~~~~~~~\n2 | '
+        + gameBoard[1][0] +' | '+ gameBoard[1][1] +' | '+ gameBoard[1][2] +
+        ' |\n  ~~~~~~~~~~~~~\n3 | '
+        + gameBoard[2][0] +' | '+ gameBoard[2][1] +' | '+ gameBoard[2][2] +
+        ' |\n  ~~~~~~~~~~~~~\n'
 }
 
 /*
@@ -138,7 +140,8 @@ function getGameBoardString(gameBoard) {
  * matrix, make the move on the gameBoard and return the gameBoard.
  */
 function makeMove(playerString, moveObject, gameBoard) {
-
+    gameBoard[moveObject.y][moveObject.x] = playerString;
+    return gameBoard;
 }
 
 /*
@@ -147,7 +150,15 @@ function makeMove(playerString, moveObject, gameBoard) {
  * For example, the game board might be 3x3, 4x4, or 5x7.
  */
 function getEmptySpaceCount(gameBoard) {
-
+    var emptySpace = [];
+    for(var i = 0; i < gameBoard.length; i++){
+        for(var j = 0; j < gameBoard[i].length; j++){
+            if (gameBoard[i][j] === ' '){
+                emptySpace.push(gameBoard[i][j]);
+            }
+        }
+    }
+    return emptySpace.length
 }
 
 /*
@@ -156,7 +167,11 @@ function getEmptySpaceCount(gameBoard) {
  * 'O' and vice versa.
  */
 function getNextPlayer(currentPlayer) {
-
+    if (currentPlayer === 'X'){
+        return currentPlayer = 'O'
+    }else{
+        return currentPlayer = 'X'
+    }
 }
 
 /*
@@ -164,7 +179,55 @@ function getNextPlayer(currentPlayer) {
  * gameBoard matrix. If there is no winner than the function should return null.
  */
 function getWinner(gameBoard) {
-	
+    for(var i = 0; i < gameBoard.length; i++){
+        if (gameBoard[i].join('') === 'XXX' || gameBoard[i].join('') === 'OOO'){
+            var win = gameBoard[i].join('')
+            if(win.substr(0,1) === 'X'){
+                return 'X'
+            }else{
+                return 'O'
+            }
+        }
+    }
+    if(gameBoard[0][0] + gameBoard[1][0]+ gameBoard[2][0] === 'XXX' || gameBoard[0][0] + gameBoard[1][0]+ gameBoard[2][0] === 'OOO'){
+        var win = gameBoard[0][0] + gameBoard[1][0]+ gameBoard[2][0]
+         if(win.substr(0,1) === 'X'){
+             return 'X'
+         }else{
+             return 'O'
+         }
+    }else if(gameBoard[0][1] + gameBoard[1][1] + gameBoard[2][1] === 'XXX' || gameBoard[0][1] + gameBoard[1][1] + gameBoard[2][1] === 'OOO'){
+        var win = gameBoard[0][1] + gameBoard[1][1] + gameBoard[2][1]
+         if(win.substr(0,1) === 'X'){
+             return 'X'
+         }else{
+             return 'O'
+         }
+
+    }else if(gameBoard[0][2] + gameBoard[1][2] + gameBoard[2][2] === 'XXX' || gameBoard[0][2] + gameBoard[1][2] + gameBoard[2][2] === 'OOO'){
+        var win = gameBoard[0][2] + gameBoard[1][2] + gameBoard[2][2]
+         if(win.substr(0,1) === 'X'){
+             return 'X'
+         }else{
+             return 'O'
+         }
+    }else if(gameBoard[0][0] + gameBoard[1][1] + gameBoard[2][2] === 'XXX' || gameBoard[0][0] + gameBoard[1][1] + gameBoard[2][2] === 'OOO'){
+        var win = gameBoard[0][0] + gameBoard[1][1] + gameBoard[2][2]
+         if(win.substr(0,1) === 'X'){
+             return 'X'
+         }else{
+             return 'O'
+         }
+    }else if(gameBoard[2][0] + gameBoard[1][1] + gameBoard[0][2] === 'XXX' || gameBoard[2][0] + gameBoard[1][1] + gameBoard[0][2] === 'OOO'){
+        var win = gameBoard[2][0] + gameBoard[1][1] + gameBoard[0][2]
+         if(win.substr(0,1) === 'X'){
+             return 'X'
+         }else{
+             return 'O'
+         }
+    }else{
+        return null;
+    }
 }
 
 /*
@@ -175,7 +238,13 @@ function getWinner(gameBoard) {
  * insensitive, so it should accept both 'Y' and 'y' for example.
  */
 function validateYesNo(yesNoString) {
-
+    if (yesNoString.toLowerCase() === 'y' || yesNoString.toLowerCase() === 'yes'){
+        return true;
+    }else if(yesNoString.toLowerCase() === 'n' || yesNoString.toLowerCase() === 'no'){
+        return false;
+    }else{
+        return null;
+    }
 }
 
 /*
